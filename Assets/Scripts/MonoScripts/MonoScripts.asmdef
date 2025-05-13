@@ -1,0 +1,17 @@
+{
+    "name": "MonoScripts",
+    "rootNamespace": "",
+    "references": [
+        "GUID:f57b75ae1e9e4174986ea64cfaf878c5",
+        "GUID:75469ad4d38634e559750d17036d5f7c"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
