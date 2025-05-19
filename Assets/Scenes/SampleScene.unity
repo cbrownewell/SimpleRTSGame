@@ -879,6 +879,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5563cdf212f22145ab408247041990c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  moveMarker: {fileID: 2999053742810066521, guid: af3d06d2f0bfeb647af9f35175fb0896, type: 3}
   selectedList: []
   selectionBox: {fileID: 152543432}
   markerObj: {fileID: 7162319003705506539, guid: 19d8be9521a46c947bef3bf0c4668783, type: 3}

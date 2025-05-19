@@ -1,14 +1,12 @@
-using Codice.CM.WorkspaceServer.DataStore.Configuration;
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
-
 using UnityEngine;
 
 public class SelectionManager : MonoBehaviour
 {
+    public GameObject moveMarker;
+
     public List<GameObject> selectedList;
     GameObject selected { get { return selectedList.First(); } }
 
@@ -167,6 +165,9 @@ public class SelectionManager : MonoBehaviour
 
         foreach (var item in moveables)
             item.MoveTo(targetPoint);
+
+        //Make right click pointer spawn in world here here
+        Instantiate(moveMarker, targetPoint, Quaternion.identity);
     }
 
     private void OnDrawGizmos()

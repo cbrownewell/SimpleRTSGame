@@ -11,7 +11,7 @@ public class InputManager : MonoBehaviour
     InputAction playerLeftClick, playerRightClick;
     InputAction mousePoint;
 
-    //Change these to unity Events
+    //Change these to unity Events?
     public delegate void StartSelect();
     public static StartSelect startSelect;
     public delegate void CancelDrag();
