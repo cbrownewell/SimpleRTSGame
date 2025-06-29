@@ -10,11 +10,11 @@ public class ResourceContainerTests
     [TestCase(45, 45)]
     public void ResourceContainer_ExtractResource_Success(int maxCap, int request)
     {
-        var container = new ResourceContainer(maxCap, 0);
+        var container = new ResourceContainer(maxCap, ResourceType.WOOD);
 
-        int extracted = container.RetrieveResources(request);
+        Resource extracted = container.ExtractResources(request);
         
-        Assert.AreEqual(request, extracted);
+        Assert.AreEqual(request, extracted._amount);
     }
 
     [Test]
@@ -22,27 +22,27 @@ public class ResourceContainerTests
     [TestCase(50, 100)]
     public void ResourceContainer_ExtractResource_Failure(int maxCap, int request)
     {
-        var container = new ResourceContainer(maxCap, 0);
+        var container = new ResourceContainer(maxCap, ResourceType.WOOD);
 
-        int extracted = container.RetrieveResources(request);
+        Resource extracted = container.ExtractResources(request);
 
-        Assert.AreEqual(extracted, 0);
+        Assert.AreEqual(extracted._amount, 0);
     }
 
     [Test]
     [TestCase(50, 30, 30)]
     public void ResourceContainer_RegenResource_Success(int maxCap, int request, int regenAmount)
     {
-        var container = new ResourceContainer(maxCap, regenAmount);
+        var container = new ResourceContainer(maxCap, ResourceType.WOOD, regenAmount);
 
-        int extracted = container.RetrieveResources(request);
+        Resource extracted = container.ExtractResources(request);
         
         Assert.AreEqual(request, extracted);
 
         container.RegenResources();
 
-        int extracted2 = container.RetrieveResources(request);
+        Resource extracted2 = container.ExtractResources(request);
 
-        Assert.AreEqual(extracted2, request);
+        Assert.AreEqual(extracted2._amount, request);
     }
 }

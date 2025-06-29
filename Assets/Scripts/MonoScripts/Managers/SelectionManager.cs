@@ -7,6 +7,8 @@ public class SelectionManager : MonoBehaviour
 {
     public GameObject moveMarker;
 
+    [SerializeField] UnitManager unitManager;
+
     public List<GameObject> selectedList;
     GameObject selected { get { return selectedList.First(); } }
 
@@ -20,23 +22,22 @@ public class SelectionManager : MonoBehaviour
     Vector3 center;
     float halfExtentX, halfExtentZ;
     bool dragSelecting = false;
+    public bool AreSelected { get { return selectedList.Any(); } }
 
     [SerializeField]
     float selectionBoxFade;
-
-    public List<GameObject> unitList;
 
     public LayerMask selectLayer;
 
     private void OnEnable()
     {
-        InputManager.startSelect += ClearSelected;
-        InputManager.startSelect += () => { dragSelecting = true; };
-        InputManager.selectSingle += TrySelect;
-        InputManager.selectArea += SelectInAreaWorldToScreen;
-        InputManager.startSelectionBoxDraw += DrawSelectionBox;
-        InputManager.cancelDrag += () => { dragSelecting = false; };
-        InputManager.moveToLocation += MoveSelectedUnits;
+        InputReader.startSelect += ClearSelected;
+        InputReader.startSelect += () => { dragSelecting = true; };
+        InputReader.selectSingle += TrySelect;
+        InputReader.selectArea += SelectInAreaWorldToScreen;
+        InputReader.startSelectionBoxDraw += DrawSelectionBox;
+        InputReader.cancelDrag += () => { dragSelecting = false; };
+        InputReader.rightClick += HandleRightClick;
     }
 
     /// <summary>
@@ -74,7 +75,6 @@ public class SelectionManager : MonoBehaviour
         SelectInAreaScreenToWorld(start, end);
         StartCoroutine(ClearSelectionBox());
     }
-
     /// <summary>
     /// Draws the inital selection box
     /// </summary>
@@ -85,7 +85,6 @@ public class SelectionManager : MonoBehaviour
         if (dragSelecting)
             CreateSelectionBox(start, end);
     }
-
     /// <summary>
     /// Select GameObjects in an area using PhysicsRaycast to figure out world space coordinates
     /// </summary>
@@ -93,8 +92,8 @@ public class SelectionManager : MonoBehaviour
     /// <param name="end">Ending corner's diagonal position</param>
     void SelectInAreaScreenToWorld(Vector2 start, Vector2 end)
     {
-        var worldStart = InputManager.RaycastMouse(start).point; //TODO This should not be physics.  Revist projecting from world space to screen space
-        var worldEnd = InputManager.RaycastMouse(end).point;
+        var worldStart = InputReader.RaycastMouse(start).point; //TODO This should not be physics.  Revist projecting from world space to screen space
+        var worldEnd = InputReader.RaycastMouse(end).point;
 
         center = Vector3.Lerp(worldStart, worldEnd, 0.5f);
 
@@ -122,7 +121,6 @@ public class SelectionManager : MonoBehaviour
         yield return new WaitForSeconds(selectionBoxFade);
         selectionBox.gameObject.SetActive(false);
     }
-
     /// <summary>
     /// Draws the selection box on the UI
     /// </summary>
@@ -152,22 +150,33 @@ public class SelectionManager : MonoBehaviour
         selectionBox.anchoredPosition = canvasAnchorCoords;
         selectionBox.sizeDelta = canvasSizeDelta;
     }
-
     /// <summary>
     /// Orders selected gameobjects from the selected to move if they have the gameobject implements IMoveable
     /// </summary>
     /// <param name="targetPoint">Point to move to</param>
-    void MoveSelectedUnits(Vector3 targetPoint)
+    void HandleRightClick(RaycastHit info)
     {
-        IEnumerable<IMoveable<Vector3>> moveables =
-            selectedList.Where(x => x.TryGetComponent<IMoveable<Vector3>>(out _))
-            .Select(j => j.GetComponent<IMoveable<Vector3>>());
+        if (!selectedList.Any())
+            return;
 
-        foreach (var item in moveables)
-            item.MoveTo(targetPoint);
+        //Debug.Log(info.collider.name);
 
-        //Make right click pointer spawn in world here here
-        Instantiate(moveMarker, targetPoint, Quaternion.identity);
+
+
+        if (selectedList.First().tag == "Unit") 
+        {
+            
+            unitManager.AssignActions(info, selectedList);
+
+            
+
+            //Make right click pointer spawn in world here here
+            Instantiate(moveMarker, info.point, Quaternion.identity);
+        }
+
+
+
+        
     }
 
     private void OnDrawGizmos()
@@ -178,5 +187,4 @@ public class SelectionManager : MonoBehaviour
             Gizmos.DrawWireCube(center, new Vector3(halfExtentX, 10, halfExtentZ) * 2);
         }
     }
-
 }

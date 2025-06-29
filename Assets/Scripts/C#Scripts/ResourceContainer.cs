@@ -1,18 +1,42 @@
-public class ResourceContainer
+public enum ResourceType 
 {
-    public ResourceContainer(int cap, int regen)
+    NULL,
+    WOOD,
+    STONE,
+    IRON,
+}
+
+public struct Resource
+{
+    public static Resource NullResource { get { return new Resource(ResourceType.NULL, 0); } }
+
+    public Resource(ResourceType type, int amount)
     {
-        resourceCap = amount = cap;
-        regenAmount = regen;
+        _type = type;
+        _amount = amount;
     }
 
-    int amount;
-    int resourceCap;
-    int regenAmount;
-    public bool IsEmpty { get { return amount == 0; } }
+    public readonly ResourceType _type;
+    public readonly int _amount;
+}
+
+public class ResourceContainer
+{
+    public ResourceContainer(int cap, ResourceType resourceType, int regen = 0)
+    {
+        _resourceCap = _amount = cap;
+        _regenAmount = regen;
+        _resourceType = resourceType;
+    }
+
+    int _amount;
+    int _resourceCap;
+    int _regenAmount;
+    ResourceType _resourceType;
+    public bool IsEmpty { get { return _amount == 0; } }
 
     /// <summary>
-    /// Changes the amoutn stored in the resource
+    /// Changes the amount stored in the resource
     /// </summary>
     /// <param name="val">value of change</param>
     /// <param name="subtract">whether we are subtracting or adding</param>
@@ -21,43 +45,50 @@ public class ResourceContainer
     {
         if (subtract)
         {
-            int postWithdraw = amount - val;
+            int postWithdraw = _amount - val;
             if (postWithdraw < 0)
                 return -1;//returning -1 because it should never be negative
-            amount = postWithdraw;
+            _amount = postWithdraw;
         }
         else 
         {
-            int postRegen = amount + val;
-            if (postRegen > resourceCap)
+            int postRegen = _amount + val;
+            if (postRegen > _resourceCap)
                 return -1;
-            amount = postRegen;
+            _amount = postRegen;
         }
 
        return val;
     }
 
+    /// <summary>
+    /// Restore resources
+    /// </summary>
     public void RegenResources() 
     {
-        ChangeAmount(regenAmount, false);
+        ChangeAmount(_regenAmount, false);
     }
 
-    public int RetrieveResources(int requested)
+    /// <summary>
+    /// Extract Resources from container
+    /// </summary>
+    /// <param name="requested"></param>
+    /// <returns></returns>
+    public Resource ExtractResources(int requested)
     {
-        int foo, fin;
+        int newValue, finalAmount;
         if (!IsEmpty || requested != 0)
         {
-            foo = ChangeAmount(requested, true);
+            newValue = ChangeAmount(requested, true);
 
-            fin = foo == -1 ? 0 : foo;
+            finalAmount = newValue == -1 ? 0 : newValue;
         }
         else 
         {
-            fin = 0;
+            finalAmount = 0;
         }
 
-        
-        return fin;
+        return new Resource(_resourceType, finalAmount);
     }
 
 
