@@ -6,7 +6,7 @@ public class WorkerUnit
     NavMeshAgent _agent;
 
     float _speed;
-    readonly float reach = 1;
+    //readonly float reach = 1;
 
     public WorkerUnit(NavMeshAgent agent, float speed) 
     {

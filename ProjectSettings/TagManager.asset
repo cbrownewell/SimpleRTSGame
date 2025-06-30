@@ -4,6 +4,7 @@
 TagManager:
   serializedVersion: 2
   tags:
+  - Unit
   - PlayerUnit
   layers:
   - Default
@@ -13,8 +14,8 @@ TagManager:
   - Water
   - UI
   - SelectLayer
-  - 
-  - 
+  - Ground
+  - Resource
   - 
   - 
   - 

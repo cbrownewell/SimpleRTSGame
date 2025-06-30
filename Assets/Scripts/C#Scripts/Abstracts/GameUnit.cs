@@ -20,7 +20,9 @@ public abstract class GameUnit : MonoBehaviour, ICommandQueue, IMoveable<Vector3
 
     Queue<Command> _commandQueue = new Queue<Command>();
     Command _currentCommand;
-
+    /// <summary>
+    /// Processes and executes queued Commands
+    /// </summary>
     protected void ProcessCommands()
     {
         //Debug.Log($"Commands left in queue {_commandQueue.Count}");
@@ -37,7 +39,6 @@ public abstract class GameUnit : MonoBehaviour, ICommandQueue, IMoveable<Vector3
         _currentCommand.Execute();
         Debug.Log(_currentCommand.GetType().ToString());
     }
-
     public void AddCommand(Command cmd)
     {
         _commandQueue.Clear();
@@ -45,14 +46,14 @@ public abstract class GameUnit : MonoBehaviour, ICommandQueue, IMoveable<Vector3
         _currentCommand = null;
     }
     public void AddCommandToQueue(Command cmd) => _commandQueue.Enqueue(cmd);
-    public void MoveTo(Vector3 target) => _agent.SetDestination(target);
-    public void Highlight(bool on) => selectCircle.enabled = on;
-    public void ToggleModel(bool onOff) => model.SetActive(onOff);
     public void AddCommandToQueue(List<Command> cmds)
     {
-        foreach (Command cmd in cmds) 
+        foreach (Command cmd in cmds)
         {
             _commandQueue.Enqueue(cmd);
         }
     }
+    public void MoveTo(Vector3 target) => _agent.SetDestination(target);
+    public void Highlight(bool on) => selectCircle.enabled = on;
+    public void ToggleModel(bool onOff) => model.SetActive(onOff);
 }

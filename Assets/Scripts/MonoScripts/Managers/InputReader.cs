@@ -85,7 +85,6 @@ public class InputReader : MonoBehaviour
     {
         var hitInfo = RaycastMouse(Mouse.current.position.value);
         rightClick?.Invoke(hitInfo);
-
     }
     /// <summary>
     /// Send the information necessary to draw the selection box without creating the box

@@ -5,7 +5,11 @@ using UnityEngine;
 public class UnitManager : MonoBehaviour
 {
     UnitCommandBuilder commandBuilder = new UnitCommandBuilder();
-
+    /// <summary>
+    /// Assign actions to the select group of Units based on the raycast info
+    /// </summary>
+    /// <param name="hitInfo"></param>
+    /// <param name="selectedUnits"></param>
     public void AssignActions(RaycastHit hitInfo, List<GameObject> selectedUnits) 
     {
         var listSample = selectedUnits.First();
@@ -29,7 +33,8 @@ public class UnitManager : MonoBehaviour
             else if (hitInfo.collider.gameObject.layer == 8) //If the raycast hit a resource
             {
                 var targetPoint = hitInfo.point;
-
+                //ResourceNode node = hitInfo.collider.GetComponent<ResourceNode>();
+                
                 var baseObj = GameObject.Find("CoreBase").GetComponent<GameBuilding>();//This will need to be replaced
 
                 foreach (var item in workers)
@@ -49,17 +54,6 @@ public class UnitManager : MonoBehaviour
                     commandQueue.AddCommandToQueue(cmdSeq);
                 }
             }
-
         }
-        else 
-        {
-        
-        }
-
     }
-
-
-
-
-
 }

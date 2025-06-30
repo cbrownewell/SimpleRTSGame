@@ -7,6 +7,10 @@ public interface ICommandQueue
     /// </summary>
     /// <param name="cmd"></param>
     void AddCommandToQueue(Command cmd);
+    /// <summary>
+    /// Adds a series of commands to the Unit's command queue
+    /// </summary>
+    /// <param name="cmds"></param>
     void AddCommandToQueue(List<Command> cmds);
     /// <summary>
     /// Overwrites current command and clears the queue

@@ -1,16 +1,25 @@
+using System.Collections.Generic;
 using UnityEngine;
 
-public class OreNode : MonoBehaviour
+public class OreNode : ResourceNode
 {
-    public ResourceContainer container;
+    public List<GameObject> ores;
 
-    [SerializeField]
-    int regenAmount;
-    [SerializeField]
-    int totalAmount;
-
-    void Start()
+    private void Awake()
     {
-        container = new ResourceContainer(totalAmount, regenAmount);
+        //postHarvest += ChangeOreVisual;//This should be an event
+    }
+
+    private void Start()
+    {
+        container = new ResourceContainer(totalAmount, resourceType);
+    }
+
+    public void ChangeOreVisual(int oreLeft) 
+    {
+        for (int i = ores.Count; i > oreLeft; i--)
+        {
+            ores[i-1].gameObject.SetActive(false);
+        }
     }
 }

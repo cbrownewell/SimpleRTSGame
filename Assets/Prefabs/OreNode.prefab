@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8845051093831567483}
-  - component: {fileID: -5897292112132781433}
   - component: {fileID: 9063526677428142594}
-  m_Layer: 0
+  - component: {fileID: 4691962708763659837}
+  m_Layer: 8
   m_Name: OreNode
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -34,20 +34,6 @@ Transform:
   - {fileID: 3259745283197609436}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &-5897292112132781433
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1496082233997273975}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5a605463eb7e86743aecb3a367c96bd0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  regenAmount: 0
-  totalAmount: 0
 --- !u!135 &9063526677428142594
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -67,8 +53,30 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.75
+  m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &4691962708763659837
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1496082233997273975}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf65a79bb1d1e1648a44a70d72397135, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  resourceType: 3
+  totalAmount: 6
+  regenAmount: 0
+  ores:
+  - {fileID: 1823128987224444591}
+  - {fileID: 2491899543813856198}
+  - {fileID: 3579193699395691036}
+  - {fileID: 3552773849706398572}
+  - {fileID: 1728034707859758914}
+  - {fileID: 6025058100996824679}
 --- !u!1 &1728034707859758914
 GameObject:
   m_ObjectHideFlags: 0
@@ -80,7 +88,6 @@ GameObject:
   - component: {fileID: 185702199669586263}
   - component: {fileID: 7194037416323573021}
   - component: {fileID: 261317914262780064}
-  - component: {fileID: 8990371101763361130}
   m_Layer: 0
   m_Name: Ore (4)
   m_TagString: Untagged
@@ -153,29 +160,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!136 &8990371101763361130
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1728034707859758914}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5000001
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
 --- !u!1 &1823128987224444591
 GameObject:
   m_ObjectHideFlags: 0
@@ -187,7 +171,6 @@ GameObject:
   - component: {fileID: 5155871293979698699}
   - component: {fileID: 614234694923258618}
   - component: {fileID: 8220069030812751372}
-  - component: {fileID: 7777198470879852432}
   m_Layer: 0
   m_Name: Ore
   m_TagString: Untagged
@@ -260,29 +243,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!136 &7777198470879852432
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1823128987224444591}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5000001
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
 --- !u!1 &2491899543813856198
 GameObject:
   m_ObjectHideFlags: 0
@@ -294,7 +254,6 @@ GameObject:
   - component: {fileID: 3335308962058861114}
   - component: {fileID: 7000027940736506394}
   - component: {fileID: 7848148136159506091}
-  - component: {fileID: 4737796106802819613}
   m_Layer: 0
   m_Name: Ore (1)
   m_TagString: Untagged
@@ -367,29 +326,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!136 &4737796106802819613
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2491899543813856198}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5000001
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
 --- !u!1 &3552773849706398572
 GameObject:
   m_ObjectHideFlags: 0
@@ -401,7 +337,6 @@ GameObject:
   - component: {fileID: 6856940914880389099}
   - component: {fileID: 7727384969209009880}
   - component: {fileID: 4480042544698435612}
-  - component: {fileID: 5017520088685515285}
   m_Layer: 0
   m_Name: Ore (3)
   m_TagString: Untagged
@@ -474,29 +409,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!136 &5017520088685515285
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3552773849706398572}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5000001
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
 --- !u!1 &3579193699395691036
 GameObject:
   m_ObjectHideFlags: 0
@@ -508,7 +420,6 @@ GameObject:
   - component: {fileID: 795404922866595574}
   - component: {fileID: 5153925821324897748}
   - component: {fileID: 1711423133626097293}
-  - component: {fileID: 3474559608902234192}
   m_Layer: 0
   m_Name: Ore (2)
   m_TagString: Untagged
@@ -581,29 +492,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!136 &3474559608902234192
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3579193699395691036}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5000001
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
 --- !u!1 &6025058100996824679
 GameObject:
   m_ObjectHideFlags: 0
@@ -615,7 +503,6 @@ GameObject:
   - component: {fileID: 1347805185001799702}
   - component: {fileID: 549913753675377488}
   - component: {fileID: 577948239139954490}
-  - component: {fileID: 1020510168309729449}
   m_Layer: 0
   m_Name: Ore (5)
   m_TagString: Untagged
@@ -688,29 +575,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!136 &1020510168309729449
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6025058100996824679}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5000001
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
 --- !u!1 &6447740592049751075
 GameObject:
   m_ObjectHideFlags: 0
@@ -722,7 +586,6 @@ GameObject:
   - component: {fileID: 3259745283197609436}
   - component: {fileID: 7026922096890702693}
   - component: {fileID: 8358040120242136018}
-  - component: {fileID: 2710512092081234934}
   m_Layer: 0
   m_Name: ResourceRock
   m_TagString: Untagged
@@ -801,24 +664,3 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!135 &2710512092081234934
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6447740592049751075}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}

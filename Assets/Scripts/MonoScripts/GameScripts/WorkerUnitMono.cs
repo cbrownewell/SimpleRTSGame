@@ -1,35 +1,41 @@
-using System;
-using System.Collections.Generic;
+using System.Collections;
 using UnityEngine;
-using UnityEngine.AI;
 
-public class WorkerUnitMono : MonoBehaviour, IMoveable<Vector3>, ISelectable
+public class WorkerUnitMono : GameUnit, IResourceInventory
 {
     WorkerUnit workerUnit;
 
-    [SerializeField]
-    SpriteRenderer selectCircle;
-
-    NavMeshAgent agent;
-
-    [SerializeField]
-    float speed = 0;
-
-    public void Highlight(bool on)
-    {
-        selectCircle.enabled = on;
-    }
-
-    public void MoveTo(Vector3 target)
-    {
-        agent.SetDestination(target);
-    }
+    Inventory resourceInventory;
 
     private void Start()
     {
-        agent = GetComponent<NavMeshAgent>();
-        workerUnit = new WorkerUnit(agent, speed);
-        agent.speed = speed;
+        workerUnit = new WorkerUnit(_agent, speed);
+        resourceInventory = new Inventory();
+        _agent.speed = speed;
     }
 
+    private void Update()
+    {
+        ProcessCommands();
+    }
+
+    public void AddToInventory(Resource obj)
+    {
+        var added = resourceInventory.AddToInventory(obj);
+    }
+
+    public void GetAllFromInventory()
+    {
+        resourceInventory.RetrieveAllInventory();
+    }
+
+    ResourceType IResourceInventory.PeekInventoryType()
+    {
+        return resourceInventory.PeekType();
+    }
+
+    public bool InventoryFull()
+    {
+        return resourceInventory.InventoryFull;
+    }
 }
