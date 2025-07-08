@@ -1,41 +1,39 @@
 public class Inventory 
 {
-    Resource _resource = Resource.NullResource;
+    ResourcePackage _resource;
 
     /// <summary>
-    /// Adds resource(s) to inventory
+    /// Adds resources to inventory
     /// </summary>
-    /// <param name="obj"></param>
-    /// <returns></returns>
-    public bool AddToInventory(Resource obj) 
+    /// <param name="pckg"></param>
+    /// <returns>True when the resource is added successfully</returns>
+    public bool AddToInventory(ResourcePackage pckg) 
     {
-        if (_resource._type == ResourceType.NULL)
+        if (_resource == null) 
+        { 
+            _resource = pckg; 
+            return true; 
+        }
+        else if (_resource.Type == pckg.Type)
         {
-            _resource = obj;
+            _resource.ChangeResourceAmount(pckg.Amount);
             return true;
         }
-        else 
-        {
-            if (obj._type == _resource._type)
-            {
-                _resource = new Resource(_resource._type, _resource._amount + obj._amount);
-                return true;
-            }
-        }
+
         return false;
     }
 
-    public ResourceType PeekType() { return _resource._type; }
-    public bool InventoryFull => _resource._amount > 0;
+    public ResourceType PeekType() { return _resource.Type; }
+    public bool InventoryFull => _resource.Amount > 0;//Need to implement a way of max carry limit.  MySQL?
 
     /// <summary>
     /// Pops the stored Resource object out of the Inventory
     /// </summary>
     /// <returns></returns>
-    public Resource RetrieveAllInventory() 
+    public ResourcePackage RetrieveAllInventory() 
     {
-        Resource retreive = _resource;
-        _resource = Resource.NullResource;
+        ResourcePackage retreive = new ResourcePackage(_resource.Type, _resource.Amount);
+        _resource = null;
         return retreive;
     }
 }

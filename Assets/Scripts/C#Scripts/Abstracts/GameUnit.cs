@@ -25,15 +25,16 @@ public abstract class GameUnit : MonoBehaviour, ICommandQueue, IMoveable<Vector3
     /// </summary>
     protected void ProcessCommands()
     {
-        //Debug.Log($"Commands left in queue {_commandQueue.Count}");
         if (_currentCommand != null && _currentCommand.isFinished == false) 
         {
-            //Debug.Log(_currentCommand.GetType().ToString());
             return;
         }
 
-        if (_commandQueue.Any() == false)
+        if (_commandQueue.Any() == false) 
+        {
+            _commandQueue.Enqueue(new IdleCommand());
             return;
+        }
 
         _currentCommand = _commandQueue.Dequeue();
         _currentCommand.Execute();

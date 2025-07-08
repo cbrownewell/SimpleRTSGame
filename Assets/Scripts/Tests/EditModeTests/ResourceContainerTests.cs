@@ -12,9 +12,9 @@ public class ResourceContainerTests
     {
         var container = new ResourceContainer(maxCap, ResourceType.WOOD);
 
-        Resource extracted = container.ExtractResources(request);
+        ResourcePackage extracted = container.ExtractResources(request);
         
-        Assert.AreEqual(request, extracted._amount);
+        Assert.AreEqual(request, extracted.Amount);
     }
 
     [Test]
@@ -24,9 +24,9 @@ public class ResourceContainerTests
     {
         var container = new ResourceContainer(maxCap, ResourceType.WOOD);
 
-        Resource extracted = container.ExtractResources(request);
+        ResourcePackage extracted = container.ExtractResources(request);
 
-        Assert.AreEqual(extracted._amount, 0);
+        Assert.AreEqual(extracted.Amount, 0);
     }
 
     [Test]
@@ -35,14 +35,14 @@ public class ResourceContainerTests
     {
         var container = new ResourceContainer(maxCap, ResourceType.WOOD, regenAmount);
 
-        Resource extracted = container.ExtractResources(request);
+        ResourcePackage extracted = container.ExtractResources(request);
         
         Assert.AreEqual(request, extracted);
 
         container.RegenResources();
 
-        Resource extracted2 = container.ExtractResources(request);
+        ResourcePackage extracted2 = container.ExtractResources(request);
 
-        Assert.AreEqual(extracted2._amount, request);
+        Assert.AreEqual(extracted2.Amount, request);
     }
 }

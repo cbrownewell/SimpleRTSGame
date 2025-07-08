@@ -13,7 +13,7 @@ public abstract class ResourceNode : MonoBehaviour, IHarvestable
     protected PostHarvest postHarvest; //Should be an event instead?
 
     public bool IsEmpty() => container.IsEmpty;
-    Resource IHarvestable.Extract(int extractAmount)
+    ResourcePackage IHarvestable.Extract(int extractAmount)
     {
         var returned = container.ExtractResources(extractAmount);
         postHarvest?.Invoke(extractAmount);

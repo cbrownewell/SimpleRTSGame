@@ -22,6 +22,5 @@ public class LoopCommand : Command
             _queue.AddCommandToQueue(cmd);
             _count++;
         }
-        //_queue.AddCommandToQueue(new LoopCommand(_queue,_commands));//this might need to be a new LoopCommand
     }
 }

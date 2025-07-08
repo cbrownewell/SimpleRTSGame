@@ -19,7 +19,7 @@ public class WorkerUnitMono : GameUnit, IResourceInventory
         ProcessCommands();
     }
 
-    public void AddToInventory(Resource obj)
+    public void AddToInventory(ResourcePackage obj)
     {
         var added = resourceInventory.AddToInventory(obj);
     }

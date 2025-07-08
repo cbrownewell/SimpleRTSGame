@@ -1,25 +1,3 @@
-public enum ResourceType 
-{
-    NULL,
-    WOOD,
-    STONE,
-    IRON,
-}
-
-public struct Resource
-{
-    public static Resource NullResource { get { return new Resource(ResourceType.NULL, 0); } }
-
-    public Resource(ResourceType type, int amount)
-    {
-        _type = type;
-        _amount = amount;
-    }
-
-    public readonly ResourceType _type;
-    public readonly int _amount;
-}
-
 public class ResourceContainer
 {
     public ResourceContainer(int cap, ResourceType resourceType, int regen = 0)
@@ -74,7 +52,7 @@ public class ResourceContainer
     /// </summary>
     /// <param name="requested"></param>
     /// <returns></returns>
-    public Resource ExtractResources(int requested)
+    public ResourcePackage ExtractResources(int requested)
     {
         int newValue, finalAmount;
         if (!IsEmpty || requested != 0)
@@ -88,7 +66,7 @@ public class ResourceContainer
             finalAmount = 0;
         }
 
-        return new Resource(_resourceType, finalAmount);
+        return new ResourcePackage(_resourceType, finalAmount);
     }
 
 
