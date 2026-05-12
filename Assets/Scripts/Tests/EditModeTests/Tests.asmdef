@@ -1,9 +1,9 @@
 {
-    "name": "Tests",
+    "name": "EditModeTests",
     "rootNamespace": "",
     "references": [
         "UnityEngine.TestRunner",
-        "RegularScripts"
+        "UnitScripts"
     ],
     "includePlatforms": [
         "Editor"
