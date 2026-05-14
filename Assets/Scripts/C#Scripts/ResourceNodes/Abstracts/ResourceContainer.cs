@@ -2,22 +2,33 @@ using UnityEngine;
 
 public abstract class ResourceContainer: MonoBehaviour, IHarvestable
 {
-    public int maxAmount = 5;
-    public int regenAmount = 0;
+    [SerializeField]
+    int maxCharges = 5;
+    [SerializeField]
+    int chargeRegen = 0;
+    [SerializeField]
+    int currentCount = 0;
 
-    public int resourcesLeft => currentCount;
-    int currentCount;
+    protected delegate void ResourceCountUpdated(int newCount);
+    /// <summary>
+    /// Triggers whenever the number of available resources changes.
+    /// </summary>
+    /// <remarks>This delegete is ideally used to update animations/models.</remarks>
+    protected event ResourceCountUpdated CountChanged;
+
+    public int chargesLeft => chargeCount;
+    int chargeCount;
     
     public ResourceType resourceType = ResourceType.NULL;
 
     private void Start()
     {
-        InitContainer();
+        chargeCount = maxCharges;
     }
 
-    public void InitContainer() 
+    private void Update()
     {
-        currentCount = maxAmount;
+        currentCount = chargeCount;
     }
 
     /// <summary>
@@ -25,25 +36,25 @@ public abstract class ResourceContainer: MonoBehaviour, IHarvestable
     /// </summary>
     /// <param name="val">value of change</param>
     /// <param name="subtract">whether we are subtracting or adding</param>
-    /// <returns>if -1 is returned then something went wrong</returns>
-    private int ChangeAmount(int val = 1, bool subtract = false)
+    /// <returns>true or false based on whether the change was possible</returns>
+    private bool ChangeAmount(int val = 1, bool subtract = false)
     {
         if (subtract)
         {
-            int postWithdraw = currentCount - val;
+            int postWithdraw = chargeCount - val;
             if (postWithdraw < 0)
-                return -1;//returning -1 because it should never be negative
-            currentCount = postWithdraw;
+                return false;
+            chargeCount = postWithdraw;
         }
         else 
         {
-            int postRegen = currentCount + val;
-            if (postRegen > maxAmount)
-                return -1;
-            currentCount = postRegen;
+            int postRegen = chargeCount + val;
+            if (postRegen > maxCharges)
+                return false;
+            chargeCount = postRegen;
         }
-
-       return val;
+        CountChanged?.Invoke(chargeCount);
+        return true;
     }
 
     /// <summary>
@@ -51,7 +62,7 @@ public abstract class ResourceContainer: MonoBehaviour, IHarvestable
     /// </summary>
     public void RegenResources() 
     {
-        ChangeAmount(regenAmount, false);
+        ChangeAmount(chargeRegen, false);
     }
 
     public ResourceType Extract()
@@ -64,6 +75,6 @@ public abstract class ResourceContainer: MonoBehaviour, IHarvestable
     }
 
     public ResourceType GetResourceType() => resourceType;
-    public bool IsEmpty() => currentCount == 0;
+    public bool IsEmpty() => chargeCount == 0;
     
 }

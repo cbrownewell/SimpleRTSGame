@@ -4,18 +4,16 @@ using UnityEngine;
 [RequireComponent(typeof(SphereCollider))]
 public class OreNode : ResourceContainer
 {
-    public List<GameObject> ores;
+    public List<GameObject> oresModels;
 
     private void Awake()
     {
-        //postHarvest += ChangeOreVisual;//This should be an event
+        CountChanged += ChangeOreVisual;
     }
 
-    public void ChangeOreVisual(int oreLeft) 
+    private void ChangeOreVisual(int oreLeft) 
     {
-        for (int i = ores.Count; i > oreLeft; i--)
-        {
-            ores[i-1].gameObject.SetActive(false);
-        }
+        for (int i = oresModels.Count; i > oreLeft; i--)
+            oresModels[i-1].gameObject.SetActive(false);
     }
 }

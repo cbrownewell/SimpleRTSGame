@@ -13,6 +13,6 @@ public class WorkerUnit : GameUnit
 
     private void Start()
     {
-        //agent.speed = speed;
+        
     }
 }

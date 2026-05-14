@@ -67,11 +67,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf65a79bb1d1e1648a44a70d72397135, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxCharges: 6
+  chargeRegen: 0
   currentCount: 0
-  maxAmount: 5
-  regenAmount: 0
   resourceType: 3
-  ores:
+  oresModels:
   - {fileID: 1823128987224444591}
   - {fileID: 2491899543813856198}
   - {fileID: 3579193699395691036}
