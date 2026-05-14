@@ -8,7 +8,7 @@ public abstract class Command
     /// <summary>
     /// Returns whether the Command has finished
     /// </summary>
-    public abstract bool isFinished { get; }
+    public abstract bool IsFinished { get; }
     /// <summary>
     /// Stops/cancels the current Commands
     /// </summary>

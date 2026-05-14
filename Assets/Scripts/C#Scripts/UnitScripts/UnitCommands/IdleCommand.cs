@@ -1,10 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
+/// <summary>
+/// A command that does nothing. Used to fill the time between commands.
+/// </summary>
 public class IdleCommand : Command
 {
-    public override bool isFinished => true;
+    public override bool IsFinished => true;
 
     public override void Cancel()
     {

@@ -8,7 +8,7 @@ public class HarvestCommand : Command
     IResourceInventory _resourceInventory;
     GameUnit _unit;
 
-    public override bool isFinished => _resourceInventory.InventoryFull();
+    public override bool IsFinished => _resourceInventory.InventoryFull();
 
     public HarvestCommand(IHarvestable harvestObj, IResourceInventory inventory, int harvestDuration, GameUnit unit)
     {

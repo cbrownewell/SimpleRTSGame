@@ -4,14 +4,16 @@ using UnityEngine.AI;
 
 public class UnitCommandBuilder : IUnitCommandBuilder
 {
-    List<Command> _commands = new List<Command>();
-    public IUnitCommandBuilder AddMovementCommand(NavMeshAgent agent, Vector3 destination, GameObject target = null) 
+    List<Command> _commands = new();
+    public IUnitCommandBuilder AddMovementCommand(NavMeshAgent agent, Vector3 destination) 
     {
-        if(target != null)
-            _commands.Add(new MoveCommand(agent, destination, target));
-        else
-            _commands.Add(new MoveCommand(agent, destination));
+        _commands.Add(new MoveToPointCommand(agent, destination));
+        return this;
+    }
 
+    public IUnitCommandBuilder AddMovementCommand(NavMeshAgent agent, GameObject target)
+    {
+        _commands.Add(new MoveToObjectCommand(agent, target));
         return this;
     }
     public IUnitCommandBuilder AddHarvestCommand(IHarvestable harvestObj, IResourceInventory inventory, int harvestDuration, GameUnit unit) 
@@ -26,8 +28,13 @@ public class UnitCommandBuilder : IUnitCommandBuilder
     }
     public IUnitCommandBuilder AddLoopCommand(ICommandQueue queue) 
     {
-        _commands.Add(new LoopCommand(queue, _commands.GetRange(0, _commands.Count)));
+        _commands.Add(new RepeatCommand(queue, _commands.GetRange(0, _commands.Count)));
         return this;
     }
-    public List<Command> Finish() { return _commands; } 
+    public List<Command> Finish() 
+    {
+        List<Command> finished = new(_commands);
+        _commands.Clear();
+        return finished;
+    } 
 }

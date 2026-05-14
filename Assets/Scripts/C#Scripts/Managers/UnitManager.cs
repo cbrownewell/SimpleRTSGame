@@ -27,7 +27,10 @@ public class UnitManager : MonoBehaviour
                 foreach (var item in workers)
                 {
                     var commandQueue = item.GetComponent<ICommandQueue>();
-                    commandQueue.AddCommand(new MoveCommand(item.NavMeshAgent, targetPoint));
+
+                    var cmdSeq = commandBuilder.AddMovementCommand(item.NavMeshAgent, targetPoint).Finish();
+
+                    commandQueue.AddCommandToQueue(cmdSeq);
                 }
             }
             else if (hitInfo.collider.gameObject.layer == 8) //If the raycast hit a resource
@@ -42,7 +45,7 @@ public class UnitManager : MonoBehaviour
 
                     var commandQueue = item.GetComponent<ICommandQueue>();
 
-                    var cmdSeq = commandBuilder.AddMovementCommand(item.NavMeshAgent, targetPoint, hitInfo.collider.gameObject)
+                    var cmdSeq = commandBuilder.AddMovementCommand(item.NavMeshAgent, hitInfo.collider.gameObject)
                         .AddHarvestCommand(harvest, item.resourceInventory, 1, item)
                         .AddMovementCommand(item.NavMeshAgent, baseObj.EntryPointCoords)
                         .AddStoreCommand(item.resourceInventory, item)

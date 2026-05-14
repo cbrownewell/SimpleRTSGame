@@ -1,33 +1,36 @@
 using System.Collections;
 using UnityEngine;
 
+/// <summary>
+/// Removes all items from a resource inventory and deposits them
+/// </summary>
 public class StoreCommand : Command
 {
-    public override bool isFinished => !_resourceInventory.InventoryFull();
+    public override bool IsFinished => !resourceInventory.InventoryFull();
 
-    IResourceInventory _resourceInventory;
-    GameUnit _unit;
+    IResourceInventory resourceInventory;
+    GameUnit unit;
 
     public StoreCommand(IResourceInventory inventory, GameUnit unit) 
     {
-        _resourceInventory = inventory;
-        _unit = unit;
+        resourceInventory = inventory;
+        this.unit = unit;
     }
 
 
     public override void Execute()
     {
-        _unit.StartCoroutine(StoreResources());
+        unit.StartCoroutine(StoreResources());
     }
 
     IEnumerator StoreResources() 
     {
         yield return new WaitForSeconds(1);
-        _resourceInventory.GetResourceFromInventory();
+        resourceInventory.GetResourceFromInventory();
     }
 
     public override void Cancel()
     {
-        _unit.StopCoroutine(StoreResources());
+        unit.StopCoroutine(StoreResources());
     }
 }

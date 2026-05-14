@@ -5,10 +5,10 @@ using UnityEngine;
 
 public class CommandQueue : MonoBehaviour, ICommandQueue
 {
-    public string CurrentCommand => PeekCurrentCommandType().ToString();
-    public string QueueSize => CommandsInQueue().ToString();
+    public string CurrentCommand;
+    public string QueueSize;
 
-    Queue<Command> _commandQueue = new Queue<Command>();
+    Queue<Command> _commandQueue = new();
     Command _currentCommand;
 
     public void AddCommand(Command cmd)
@@ -18,7 +18,6 @@ public class CommandQueue : MonoBehaviour, ICommandQueue
         _currentCommand.Cancel();
         _currentCommand = null;
     }
-
     public void AddCommandToQueue(Command cmd) => _commandQueue.Enqueue(cmd);
     public Type PeekCurrentCommandType() => _currentCommand.GetType();
     public int CommandsInQueue() => _commandQueue.Count;
@@ -33,7 +32,7 @@ public class CommandQueue : MonoBehaviour, ICommandQueue
     /// </summary>
     protected void ProcessCommands()
     {
-        if (_currentCommand != null && _currentCommand.isFinished == false)
+        if (_currentCommand != null && _currentCommand.IsFinished == false)
         {
             return;
         }
@@ -44,7 +43,10 @@ public class CommandQueue : MonoBehaviour, ICommandQueue
             return;
         }
 
+        QueueSize = CommandsInQueue().ToString();
         _currentCommand = _commandQueue.Dequeue();
+        CurrentCommand = PeekCurrentCommandType().ToString();
+        
         _currentCommand.Execute();
     }
 
