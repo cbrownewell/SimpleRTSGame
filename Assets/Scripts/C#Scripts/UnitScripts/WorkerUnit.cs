@@ -4,6 +4,8 @@ using UnityEngine;
 public class WorkerUnit : GameUnit
 {
     public IResourceInventory resourceInventory;
+    [SerializeField]
+    private float awareness;
 
     protected override void Awake()
     {

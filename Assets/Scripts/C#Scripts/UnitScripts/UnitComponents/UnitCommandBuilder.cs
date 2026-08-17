@@ -16,9 +16,11 @@ public class UnitCommandBuilder : IUnitCommandBuilder
         _commands.Add(new MoveToObjectCommand(agent, target));
         return this;
     }
-    public IUnitCommandBuilder AddHarvestCommand(IHarvestable harvestObj, IResourceInventory inventory, int harvestDuration, GameUnit unit) 
+    public IUnitCommandBuilder AddHarvestCommand(IHarvestable harvestObj, IResourceInventory inventory, GameUnit unit) 
     {
-        _commands.Add(new HarvestCommand(harvestObj, inventory, harvestDuration, unit));
+        var cmd = new HarvestCommand(harvestObj, inventory, unit);
+        //cmd.GetNewHarvestable 
+        _commands.Add(cmd);
         return this;
     }
     public IUnitCommandBuilder AddStoreCommand(IResourceInventory inventory, GameUnit unit) 

@@ -1,5 +1,12 @@
+using System;
+
 public abstract class Command
 {
+    /// <summary>
+    /// Event fires when the command is canceled
+    /// </summary>
+    public event Action CommandCanceled;
+
     /// <summary>
     /// Executes core functionality of Command
     /// </summary>
@@ -12,5 +19,8 @@ public abstract class Command
     /// <summary>
     /// Stops/cancels the current Commands
     /// </summary>
-    public abstract void Cancel();
+    public virtual void Cancel() 
+    {
+        CommandCanceled?.Invoke();
+    }
 }
