@@ -15,9 +15,8 @@ public abstract class GameUnit : MonoBehaviour, IMoveable<Vector3>, ISelectable
     GameObject model;
 
     protected NavMeshAgent agent;
+    protected ICommandQueue commandQueue;
     public NavMeshAgent NavMeshAgent { get { return agent; } }
-
-    public ICommandQueue commandQueue;
 
     protected virtual void Awake()
     {

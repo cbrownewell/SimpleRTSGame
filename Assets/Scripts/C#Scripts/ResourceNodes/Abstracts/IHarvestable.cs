@@ -18,4 +18,5 @@ public interface IHarvestable
     ResourceType Extract();
     bool IsEmpty();
     ResourceType GetResourceType();
+    float GetBaseHarvestTime();
 }

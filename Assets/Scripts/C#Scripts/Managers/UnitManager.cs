@@ -33,20 +33,23 @@ public class UnitManager : MonoBehaviour
                     commandQueue.AddCommandToQueue(cmdSeq);
                 }
             }
-            else if (hitInfo.collider.gameObject.layer == 8) //If the raycast hit a resource
+            else if (hitInfo.collider.gameObject.layer == 8) //If the raycast hit a resource/ the resource layer
             {
                 var targetPoint = hitInfo.point;
                 
                 var baseObj = GameObject.Find("CoreBase").GetComponent<GameBuilding>();//This will need to be replaced eventually
 
+                hitInfo.collider.TryGetComponent<IHarvestable>(out var harvest);
+
+                if (harvest.IsEmpty() is true)
+                    return;
+
                 foreach (var item in workers)
                 {
-                    hitInfo.collider.TryGetComponent<IHarvestable>(out var harvest);
-
                     var commandQueue = item.GetComponent<ICommandQueue>();
 
                     var cmdSeq = commandBuilder.AddMovementCommand(item.NavMeshAgent, hitInfo.collider.gameObject)
-                        .AddHarvestCommand(harvest, item.resourceInventory, 1, item)
+                        .AddHarvestCommand(harvest, item.resourceInventory, item)
                         .AddMovementCommand(item.NavMeshAgent, baseObj.EntryPointCoords)
                         .AddStoreCommand(item.resourceInventory, item)
                         .AddLoopCommand(commandQueue)

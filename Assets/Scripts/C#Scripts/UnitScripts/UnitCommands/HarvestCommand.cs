@@ -1,41 +1,52 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
 public class HarvestCommand : Command
 {
-    int _harvestTime = 1;
+    float _harvestTime;
     IHarvestable _harvestable;
     IResourceInventory _resourceInventory;
     GameUnit _unit;
 
+    public event Func<Vector3, ResourceType, IHarvestable> GetNewHarvestable;
+
     public override bool IsFinished => _resourceInventory.InventoryFull();
 
-    public HarvestCommand(IHarvestable harvestObj, IResourceInventory inventory, int harvestDuration, GameUnit unit)
+    public HarvestCommand(IHarvestable harvestObj, IResourceInventory inventory, GameUnit unit)
     {
         _harvestable = harvestObj;
         _resourceInventory = inventory;
-        _harvestTime = harvestDuration;
+        _harvestTime = harvestObj.GetBaseHarvestTime();
         _unit = unit;
     }
 
     public override void Execute()
     {
-        if (!_harvestable.IsEmpty())
-        {
+        if (_harvestable.IsEmpty() is false)
             _unit.StartCoroutine(Harvest());
+        else 
+        {
+            FindNewResource();
         }
+    }
+
+    /// <summary>
+    /// Calls locator service to find the closest resource node that can be harvested from.
+    /// </summary>
+    /// <returns></returns>
+    IHarvestable FindNewResource() 
+    {
+        return GetNewHarvestable?.Invoke(_unit.gameObject.transform.position, _harvestable.GetResourceType());
     }
 
     IEnumerator Harvest()
     {
-        if (_harvestable.IsEmpty())
+        if (_harvestable.IsEmpty() || _harvestable.GetResourceType() is ResourceType.NULL) 
+        {
+            Cancel();
             yield return null;
-
-        if (_harvestable.GetResourceType() != _resourceInventory.PeekResourceType() && _resourceInventory.PeekResourceType() != ResourceType.NULL)
-            yield return null;
-
-        if (_resourceInventory.InventoryFull())
-            yield return null;
+        }
 
         yield return new WaitForSeconds(_harvestTime);
         var resource = _harvestable.Extract();
@@ -45,5 +56,6 @@ public class HarvestCommand : Command
     public override void Cancel()
     {
         _unit.StopCoroutine(Harvest());
+        base.Cancel();
     }
 }

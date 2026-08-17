@@ -1,13 +1,16 @@
 using UnityEngine;
 
-public abstract class ResourceContainer: MonoBehaviour, IHarvestable
+/// <summary>
+/// Base class for resource objects.
+/// </summary>
+public abstract class ResourceContainer : MonoBehaviour, IHarvestable
 {
     [SerializeField]
-    int maxCharges = 5;
-    [SerializeField]
-    int chargeRegen = 0;
+    protected int maxCharges;
     [SerializeField]
     int currentCount = 0;
+    [SerializeField]
+    float timeToHarvest = 1;
 
     protected delegate void ResourceCountUpdated(int newCount);
     /// <summary>
@@ -17,9 +20,9 @@ public abstract class ResourceContainer: MonoBehaviour, IHarvestable
     protected event ResourceCountUpdated CountChanged;
 
     public int chargesLeft => chargeCount;
-    int chargeCount;
-    
-    public ResourceType resourceType = ResourceType.NULL;
+    protected int chargeCount;
+
+    protected ResourceType resourceType = ResourceType.NULL;
 
     private void Start()
     {
@@ -31,50 +34,35 @@ public abstract class ResourceContainer: MonoBehaviour, IHarvestable
         currentCount = chargeCount;
     }
 
-    /// <summary>
-    /// Changes the amount stored in the resource
-    /// </summary>
-    /// <param name="val">value of change</param>
-    /// <param name="subtract">whether we are subtracting or adding</param>
-    /// <returns>true or false based on whether the change was possible</returns>
-    private bool ChangeAmount(int val = 1, bool subtract = false)
-    {
-        if (subtract)
-        {
-            int postWithdraw = chargeCount - val;
-            if (postWithdraw < 0)
-                return false;
-            chargeCount = postWithdraw;
-        }
-        else 
-        {
-            int postRegen = chargeCount + val;
-            if (postRegen > maxCharges)
-                return false;
-            chargeCount = postRegen;
-        }
-        CountChanged?.Invoke(chargeCount);
-        return true;
-    }
+    public float GetBaseHarvestTime() => timeToHarvest;
+    public ResourceType GetResourceType() => resourceType;
+    public bool IsEmpty() => chargeCount == 0;
 
     /// <summary>
-    /// Restore resources
+    /// Removes a single resource charge
     /// </summary>
-    public void RegenResources() 
+    public bool RemoveCharge()
     {
-        ChangeAmount(chargeRegen, false);
+        int postWithdraw = chargeCount - 1;
+        if (postWithdraw < 0)
+            return false;
+
+        chargeCount = postWithdraw;
+        CountChangeNotif();
+        return true;
     }
 
     public ResourceType Extract()
     {
-        if (IsEmpty() == true)
+        if (IsEmpty())
             return ResourceType.NULL;
 
-        ChangeAmount(1, true);
+        RemoveCharge();
         return resourceType;
     }
 
-    public ResourceType GetResourceType() => resourceType;
-    public bool IsEmpty() => chargeCount == 0;
+    protected void CountChangeNotif() => CountChanged?.Invoke(chargeCount);
     
+
+
 }
