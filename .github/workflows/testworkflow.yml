@@ -12,6 +12,8 @@ jobs:
       #finds md file and print out title
       - name: TestCheckout
         run: cd github.event.repository.name
-          cat README.md | echo
+
+      - name: OutputName  
+        run: cat README.md | echo
 
 
