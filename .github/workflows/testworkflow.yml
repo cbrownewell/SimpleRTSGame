@@ -1,0 +1,17 @@
+name: CI-Merge-Request
+on:
+  pull_request:
+    
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      #Checks out repo
+      - uses: actions/checkout@v4
+
+      #finds md file and print out title
+      - name: TestCheckout
+        run: cd github.event.repository.name
+          cat README.md | echo
+
+
