@@ -11,6 +11,6 @@ jobs:
 
       #finds md file and print out title
       - name: OutputName  
-        run: cat README.md | echo
+        run: cat README.md
 
 
