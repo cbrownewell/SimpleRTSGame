@@ -11,7 +11,7 @@ jobs:
 
       #finds md file and print out title
       - name: TestCheckout
-        run: cd SimpleRTSGame
+        run: ls #cd SimpleRTSGame
 
       - name: OutputName  
         run: cat README.md | echo
