@@ -11,7 +11,7 @@ jobs:
 
       #finds md file and print out title
       - name: TestCheckout
-        run: cd github.event.repository.name
+        run: cd SimpleRTSGame
 
       - name: OutputName  
         run: cat README.md | echo
