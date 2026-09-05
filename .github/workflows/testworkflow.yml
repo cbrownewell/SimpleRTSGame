@@ -10,9 +10,6 @@ jobs:
       - uses: actions/checkout@v4
 
       #finds md file and print out title
-      - name: TestCheckout
-        run: ls #cd SimpleRTSGame
-
       - name: OutputName  
         run: cat README.md | echo
 
