@@ -1,10 +1,13 @@
 name: Tests
 on:
     pull_request:
-        types:
-            closed
 jobs:
     UnitTests:
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v6
+            - name: Setup_Unity
+              run: curl -fsSL https://unity.com/install.sh | UNITY_CLI_CHANNEL=beta bash;
+                unity --version;
+
+
+            
