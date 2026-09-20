@@ -1,0 +1,7 @@
+FROM ubuntu
+
+#Install Unity CLI
+RUN curl -fsSL https://public-cdn.cloud.unity3d.com/hub/prod/cli/install.sh | UNITY_CLI_CHANNEL=beta bash
+
+#Install the specific Unity version
+RUN unity install 6000.4.0f1

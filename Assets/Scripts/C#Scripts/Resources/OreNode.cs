@@ -9,6 +9,8 @@ public class OreNode : ResourceContainer
     private void Awake()
     {
         CountChanged += ChangeOreVisual;
+        resourceType = ResourceType.IRON;
+
     }
 
     private void ChangeOreVisual(int oreLeft) 

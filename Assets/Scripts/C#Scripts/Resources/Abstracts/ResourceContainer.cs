@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 /// <summary>
@@ -12,12 +13,11 @@ public abstract class ResourceContainer : MonoBehaviour, IHarvestable
     [SerializeField]
     float timeToHarvest = 1;
 
-    protected delegate void ResourceCountUpdated(int newCount);
     /// <summary>
     /// Triggers whenever the number of available resources changes.
     /// </summary>
     /// <remarks>This delegete is ideally used to update animations/models.</remarks>
-    protected event ResourceCountUpdated CountChanged;
+    protected event Action<int> CountChanged;
 
     public int chargesLeft => chargeCount;
     protected int chargeCount;

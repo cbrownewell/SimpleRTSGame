@@ -1,6 +1,5 @@
 using NUnit.Framework;
 using System.Collections;
-using UnityEngine;
 using UnityEngine.TestTools;
 
 public class CommandQueueTests
@@ -9,7 +8,7 @@ public class CommandQueueTests
     [UnityTest]
     public IEnumerator AddSingleCommand_Success() 
     {
-        ICommandQueue queue = new CommandQueue();
+        //ICommandQueue queue = new CommandQueue();
 
         
 

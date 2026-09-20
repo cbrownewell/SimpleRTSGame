@@ -1,5 +1,7 @@
 using UnityEngine;
 using UnityEngine.AI;
+using Commands.Components;
+using Commands.Components.Abstract;
 
 [RequireComponent(typeof(Rigidbody), typeof(CapsuleCollider), typeof(NavMeshAgent))]
 [RequireComponent(typeof(CommandQueue))]
