@@ -18,7 +18,7 @@ public class ServiceLocator : MonoBehaviour
     public SelectionManager GetSelectionManager() { return SelectionManager; }
 
     [SerializeField]
-    public ObjectLocator ObjectLocator;
-    public ObjectLocator GetObjectLocator() { return ObjectLocator; }
+    public ResourceLocator ObjectLocator;
+    public ResourceLocator GetObjectLocator() { return ObjectLocator; }
 
 }

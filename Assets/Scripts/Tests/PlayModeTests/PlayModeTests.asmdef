@@ -5,7 +5,8 @@
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner",
         "UnitScripts",
-        "ResourceNodes"
+        "Resources",
+        "Commands"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
