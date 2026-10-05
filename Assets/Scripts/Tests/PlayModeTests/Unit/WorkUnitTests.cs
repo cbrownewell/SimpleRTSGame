@@ -3,7 +3,7 @@ using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.TestTools;
-using Commands.Components;
+
 
 public class WorkerUnitTests
 {
@@ -20,7 +20,6 @@ public class WorkerUnitTests
         Assert.True(gameObject.TryGetComponent<ResourceInventory>(out _), "Worker should have a resource inventory.");
         
         //From GameUnit base class
-        Assert.True(gameObject.TryGetComponent<CommandQueue>(out _), "Worker should have a command queue.");
         Assert.True(gameObject.TryGetComponent<CapsuleCollider>(out _), "Worker should have a capsule collider.");
         Assert.True(gameObject.TryGetComponent<NavMeshAgent>(out _), "Worker should have a navmesh agent.");
         Assert.True(gameObject.TryGetComponent<Rigidbody>(out _), "Worker should have a rigibody component.");

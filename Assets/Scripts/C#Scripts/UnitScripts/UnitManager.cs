@@ -1,12 +1,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using Commands.Components.Abstract;
-using Commands.Components;
+using UnitScripts.States.Worker;
 
 public class UnitManager : MonoBehaviour
 {
-    IUnitCommandBuilder commandBuilder = new UnitCommandBuilder();
     /// <summary>
     /// Assign actions to the select group of Units based on the raycast info
     /// </summary>
@@ -16,7 +14,7 @@ public class UnitManager : MonoBehaviour
     {
         var listSample = selectedUnits.First();
 
-        if (listSample.TryGetComponent<WorkerUnit>(out _))
+        if (listSample.TryGetComponent<WorkerUnit>(out _))//So far we can only select a group of one type of Unit
         {
             IEnumerable<WorkerUnit> workers =
                 selectedUnits.Where(x => x.TryGetComponent<WorkerUnit>(out _))
@@ -24,61 +22,51 @@ public class UnitManager : MonoBehaviour
 
             if (hitInfo.collider.gameObject.layer == 7) //If the raycast hit the ground
             {
-                AssignMovementActions(hitInfo.point, workers);
+                foreach (var worker in workers)
+                {
+                    PushMovementStatePoint(hitInfo.point, workers);
+                }
             }
             else if (hitInfo.collider.gameObject.layer == 8) //If the raycast hit a resource/ the resource layer
             {
-                AssignHarvestActions(hitInfo.collider, workers);
+                hitInfo.collider.TryGetComponent<IHarvestable>(out var harvest);
+
+                if (harvest.IsEmpty() is true)
+                    return;
+
+                foreach (var worker in workers)
+                { 
+                    PushHarvestState(harvest, worker);
+                }
             }
         }
     }
 
     /// <summary>
-    /// Creates and assigns all actions needed for a Unit to move somewhere
+    /// Push a movement state with priority.
     /// </summary>
     /// <param name="point"></param>
     /// <param name="workers"></param>
-    void AssignMovementActions(Vector3 point, IEnumerable<WorkerUnit> workers) 
+    /// <remarks>We pass in a Vec3 point, because passing in the ground transform is not viable.</remarks>
+    void PushMovementStatePoint(Vector3 point, IEnumerable<WorkerUnit> workers) 
     {
-        var targetPoint = point;
+        //Since the point does not have a transform, create an empty gameobject
+        var movePoint = new GameObject().transform;
+        movePoint.position = point;
 
-        foreach (var item in workers)
+        foreach (var worker in workers)
         {
-            var commandQueue = item.GetComponent<ICommandQueue>();
-
-            var cmdSeq = commandBuilder.AddMovementCommand(item.NavMeshAgent, targetPoint).Finish();
-
-            commandQueue.AddCommandToQueue(cmdSeq);
+            worker.stateMachine.PushPriorityState(new WorkerMarchState(worker, movePoint, worker.reach));
         }
     }
 
     /// <summary>
-    /// Creates and assigns all necessary actions for a worker unit to harvest the target resource
+    /// Pushes a harvest state to a worker with priority.
     /// </summary>
-    /// <param name="collider"></param>
-    /// <param name="workers"></param>
-    void AssignHarvestActions(Collider collider, IEnumerable<WorkerUnit> workers) 
+    /// <param name="harvest"></param>
+    /// <param name="worker"></param>
+    void PushHarvestState(IHarvestable harvest, WorkerUnit worker) 
     {
-        //var baseObj = GameObject.Find("CoreBase").GetComponent<GameBuilding>();//This will need to be replaced eventually
-
-        collider.TryGetComponent<IHarvestable>(out var harvest);
-
-        if (harvest.IsEmpty() is true)
-            return;
-
-        foreach (var item in workers)
-        {
-            var commandQueue = item.GetComponent<ICommandQueue>();
-
-            var cmdSeq = commandBuilder.AddMovementCommand(item.NavMeshAgent, collider.gameObject)
-                .AddHarvestCommand(harvest, item.resourceInventory, item)
-                .AddMovementCommand(item.NavMeshAgent, new Vector3())//baseObj.EntryPointCoords)
-                .AddStoreCommand(item.resourceInventory, item)
-                .AddLoopCommand(commandQueue)
-                .Finish();
-
-            commandQueue.AddCommandToQueue(cmdSeq);
-        }
-
+       worker.stateMachine.PushPriorityState(new HarvestState(worker, harvest));   
     }
 }

@@ -164,6 +164,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 664416599934499887, guid: f57ca47290a1f674b87555ab45108b2b, type: 3}
+      propertyPath: reach
+      value: 2.5
+      objectReference: {fileID: 0}
     - target: {fileID: 927826407924087023, guid: f57ca47290a1f674b87555ab45108b2b, type: 3}
       propertyPath: m_Mesh
       value: 
@@ -218,7 +222,7 @@ PrefabInstance:
       objectReference: {fileID: 1823662078}
     - target: {fileID: 9177267402374534003, guid: f57ca47290a1f674b87555ab45108b2b, type: 3}
       propertyPath: m_VersionIndex
-      value: 1750
+      value: 1759
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -772,6 +776,7 @@ GameObject:
   - component: {fileID: 963194232}
   - component: {fileID: 963194233}
   - component: {fileID: 963194234}
+  - component: {fileID: 963194235}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1002,6 +1007,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   UnitManager: {fileID: 963194233}
   SelectionManager: {fileID: 963194232}
+--- !u!114 &963194235
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 963194225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 892d84c84bb1d9e49b09bb3c453fda81, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Locator::EntityLocator
 --- !u!4 &1195877464 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7525965435956073672, guid: ddb9c2ce4ab80e4419eedaa90ff5ec9c, type: 3}
@@ -1497,6 +1514,10 @@ PrefabInstance:
     - target: {fileID: 353727396832990378, guid: ddb9c2ce4ab80e4419eedaa90ff5ec9c, type: 3}
       propertyPath: m_Name
       value: Tree
+      objectReference: {fileID: 0}
+    - target: {fileID: 353727396832990378, guid: ddb9c2ce4ab80e4419eedaa90ff5ec9c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7525965435956073672, guid: ddb9c2ce4ab80e4419eedaa90ff5ec9c, type: 3}
       propertyPath: m_LocalPosition.x

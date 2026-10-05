@@ -1,0 +1,18 @@
+{
+    "name": "Locator",
+    "rootNamespace": "",
+    "references": [
+        "GUID:fabb1f1506ae3f4408702c490be0b7e3",
+        "GUID:1e919320076398e4294eeb39a0db8b56",
+        "GUID:10c810ab1dacf144bb5034f43f1eaf21"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

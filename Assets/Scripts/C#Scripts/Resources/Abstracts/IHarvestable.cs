@@ -1,3 +1,5 @@
+using UnityEngine;
+
 public enum ResourceType
 {
     NULL,
@@ -19,4 +21,6 @@ public interface IHarvestable
     bool IsEmpty();
     ResourceType GetResourceType();
     float GetBaseHarvestTime();
+
+    public Transform Location { get; }
 }

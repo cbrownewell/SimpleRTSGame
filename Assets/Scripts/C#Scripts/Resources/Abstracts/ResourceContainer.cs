@@ -20,6 +20,9 @@ public abstract class ResourceContainer : MonoBehaviour, IHarvestable
     protected event Action<int> CountChanged;
 
     public int chargesLeft => chargeCount;
+
+    public Transform Location { get => transform; }
+
     protected int chargeCount;
 
     protected ResourceType resourceType = ResourceType.NULL;
