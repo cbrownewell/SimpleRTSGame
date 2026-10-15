@@ -9,6 +9,7 @@ namespace UnitScripts.States.Worker
         public static event Func<Vector3, Transform> FindDepot;
 
         Transform dropoffDepot;
+        public Transform DropOffDepot { get { return dropoffDepot; } }
 
         HarvestState origin;
 
@@ -26,8 +27,8 @@ namespace UnitScripts.States.Worker
         {
             //Move to Deposit point
             var diff = Vector3.Distance(worker.transform.position, dropoffDepot.position);
-            if (diff >= worker.reach)
-                return new WorkerMarchState(worker, dropoffDepot, worker.reach, this);
+            if (diff >= worker.Reach)
+                return new WorkerMarchState(worker, dropoffDepot, worker.Reach, this);
 
             //Deposit - this will need to eventually put the resource in a global repository, but we just discard for now
             var resource = worker.resourceInventory.GetResourceFromInventory();

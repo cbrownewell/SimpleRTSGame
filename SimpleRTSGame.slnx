@@ -6,6 +6,7 @@
   <Project Path="PlayModeTests.csproj" />
   <Project Path="Assembly-CSharp.csproj" />
   <Project Path="UnitScripts.csproj" />
+  <Project Path="EditModeTests.csproj" />
   <Project Path="Selection.csproj" />
   <Project Path="BuildingScripts.csproj" />
 </Solution>

@@ -1,42 +1,62 @@
 using StateMachine.States.Abstracts;
+using System.Collections.Generic;
+using UnityEngine;
 
 namespace StateMachine.Abstracts
 {
     public abstract class BaseStateMachine : IStateMachine
     {
-        protected IState current;
+        protected IState m_current;
+
+        protected List<string> m_history;
         
         public BaseStateMachine(IState initial) 
         {
-            current = initial;
-            current.InitState();
+            m_current = initial;
+            m_current.InitState();
         }
 
         public IState PeekState()
         {
-            return current;
+            return m_current;
         }
 
         public void PushPriorityState(IState state)
         {
-            current.CloseState();
-            current = state;
-            current.InitState();
+            m_current.CloseState();
+            m_current = state;
+            m_current.InitState();
         }
 
         public void Tick()
         {
             //Execute the current state and see whats next
-            var next = current.ExecuteState();
+            var next = m_current.ExecuteState();
 
             //if next is the same as current then we don't need to change anything
-            if (ReferenceEquals(current, next))
+            if (ReferenceEquals(m_current, next)) 
+            {
+                LogStateContinuation(next);
                 return;
+            }
 
-            current.CloseState();
-            current = next;
-            current.InitState();
+            LogStateTransition(m_current, next);
+            m_current.CloseState();
+            m_current = next;
+            m_current.InitState();
+        }
 
+        protected void LogStateTransition(IState current, IState next) 
+        {
+            string x = current.GetType().ToString();
+            string y = next.GetType().ToString();
+            Debug.Log("Transitioning from " + x + " to " + y + ".");
+        }
+
+        protected void LogStateContinuation(IState current)
+        {
+            string x = current.GetType().ToString();
+            Debug.Log("Continuing " + x + ".");
         }
     }
 }

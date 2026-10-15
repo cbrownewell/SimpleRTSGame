@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 /// <summary>
@@ -61,7 +62,14 @@ public abstract class ResourceContainer : MonoBehaviour, IHarvestable
             return ResourceType.NULL;
 
         RemoveCharge();
+        //StartCoroutine(Harvest());
         return resourceType;
+    }
+
+    public IEnumerator Harvest()
+    {
+        yield return new WaitForSeconds(timeToHarvest);
+        RemoveCharge();
     }
 
     protected void CountChangeNotif() => CountChanged?.Invoke(chargeCount);

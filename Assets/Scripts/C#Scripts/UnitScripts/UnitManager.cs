@@ -56,7 +56,7 @@ public class UnitManager : MonoBehaviour
 
         foreach (var worker in workers)
         {
-            worker.stateMachine.PushPriorityState(new WorkerMarchState(worker, movePoint, worker.reach));
+            worker.stateMachine.PushPriorityState(new WorkerMarchState(worker, movePoint, worker.Reach));
         }
     }
 

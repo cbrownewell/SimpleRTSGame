@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.TestTools;
 
-
 public class WorkerUnitTests
 {
     /// <summary>
@@ -26,5 +25,4 @@ public class WorkerUnitTests
 
         yield return null;
     }
-
 }

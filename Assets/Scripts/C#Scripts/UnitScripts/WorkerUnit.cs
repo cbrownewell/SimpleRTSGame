@@ -9,10 +9,13 @@ public class WorkerUnit : GameUnit
     public IResourceInventory resourceInventory;
     public IStateMachine stateMachine;
 
-    public float reach;
+    [SerializeField]
+    private float reach = 0.1f;
+    public float Reach { get { return reach; } }
 
     [SerializeField]
     private float awareness;
+    public float Awareness { get { return awareness; } }
 
     protected override void Awake()
     {

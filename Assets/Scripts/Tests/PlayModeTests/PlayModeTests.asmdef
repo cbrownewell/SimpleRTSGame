@@ -6,7 +6,8 @@
         "UnityEditor.TestRunner",
         "UnitScripts",
         "Resources",
-        "Commands"
+        "StateMachine",
+        "Unity.AI.Navigation"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

@@ -1,4 +1,3 @@
-using StateMachine.States;
 using StateMachine.States.Abstracts;
 using System;
 using System.Collections;
@@ -45,8 +44,8 @@ namespace UnitScripts.States.Worker
 
             //If we're in range of the harvestTarget then start harvesting, else keep moving towards it
             var track = Vector3.Distance(worker.transform.position, harvestTarget.Location.position);
-            if (track >= worker.reach)
-                return new WorkerMarchState(worker, harvestTarget.Location, worker.reach, this);
+            if (track >= worker.Reach)
+                return new WorkerMarchState(worker, harvestTarget.Location, worker.Reach, this);
             else
                 if (harvesting is false || worker.resourceInventory.InventoryFull() is false)
                 {
@@ -63,10 +62,12 @@ namespace UnitScripts.States.Worker
         }
         IEnumerator Harvest()
         {
-            harvesting = true;
+            harvesting = true; //Resource node has its own internal count so remove this later
             float duration = harvestTime;
             while (duration > 0)
                 duration -= Time.deltaTime;
+
+            //yield return new WaitUntil(() => harvestTarget.Extract() != ResourceType.NULL); //Maybe this could be useful?
 
             var resource = harvestTarget.Extract();
             worker.resourceInventory.AddToInventory(resource);

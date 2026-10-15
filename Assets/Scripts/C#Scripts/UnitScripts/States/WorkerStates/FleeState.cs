@@ -11,6 +11,7 @@ namespace UnitScripts.States.Worker
         public static event Func<Vector3, Transform> FindSafePoint;
 
         Transform safePoint;
+        public Vector3 TargetPoint { get { return safePoint.position; } }
 
         float waitTime;
 

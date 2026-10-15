@@ -54,6 +54,7 @@ MonoBehaviour:
   speed: 5
   selectCircle: {fileID: 7026858815903869294}
   model: {fileID: 2147860206712505330}
+  reach: 1.3
   awareness: 10
 --- !u!114 &8428872759695486302
 MonoBehaviour:
