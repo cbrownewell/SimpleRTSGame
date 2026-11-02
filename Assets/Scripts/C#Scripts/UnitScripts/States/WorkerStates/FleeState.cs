@@ -1,4 +1,3 @@
-using StateMachine.States;
 using StateMachine.States.Abstracts;
 using System;
 using System.Collections;
@@ -8,7 +7,7 @@ namespace UnitScripts.States.Worker
 {
     public class FleeState : BaseWorkerState
     {
-        public static event Func<Vector3, Transform> FindSafePoint;
+        public static event Func<Vector3, float, Transform> FindSafePoint;
 
         Transform safePoint;
         public Vector3 TargetPoint { get { return safePoint.position; } }
@@ -24,14 +23,14 @@ namespace UnitScripts.States.Worker
 
         public override void InitState()
         {
-            //Find a safe distance away - Event not implmented yet
-            safePoint = FindSafePoint.Invoke(worker.transform.position);
+            //Find a safe distance away
+            safePoint = FindSafePoint?.Invoke(worker.transform.position, worker.Awareness);
         }
 
         public override IState ExecuteState()
         {
-            if (Vector3.Distance(worker.transform.position, safePoint.position) >= 1f)
-                return new WorkerMarchState(worker, safePoint, 1f, this);
+            if (Vector3.Distance(worker.transform.position, safePoint.position) >= worker.Reach)
+                return new WorkerMarchState(worker, safePoint, this);
 
             if (hunkering is false)
                 worker.StartCoroutine(EnsureSafety());

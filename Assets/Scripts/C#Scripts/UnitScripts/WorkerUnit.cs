@@ -10,10 +10,6 @@ public class WorkerUnit : GameUnit
     public IStateMachine stateMachine;
 
     [SerializeField]
-    private float reach = 0.1f;
-    public float Reach { get { return reach; } }
-
-    [SerializeField]
     private float awareness;
     public float Awareness { get { return awareness; } }
 

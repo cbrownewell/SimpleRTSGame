@@ -33,7 +33,7 @@ namespace UnitScripts.States.Worker
         {
             //Look for an appropriate resource container
             if (harvestTarget is null || harvestTarget.IsEmpty())
-                harvestTarget = FindResource.Invoke(harvestTarget.GetResourceType(), worker.transform.position);//Maybe use the position of the last target?
+                harvestTarget = FindResource?.Invoke(harvestTarget.GetResourceType(), worker.transform.position);//Maybe use the position of the last target?
         }
 
         public override IState ExecuteState()
@@ -43,15 +43,21 @@ namespace UnitScripts.States.Worker
                 return new WorkerIdleState(worker);
 
             //If we're in range of the harvestTarget then start harvesting, else keep moving towards it
-            var track = Vector3.Distance(worker.transform.position, harvestTarget.Location.position);
+            var track = Vector3.Distance(worker.transform.position, harvestTarget.Location.position);//Issue is that the movement state and harvest state are targetting different point. Harvest targets actual object while movement creates a point on the navmesh
             if (track >= worker.Reach)
-                return new WorkerMarchState(worker, harvestTarget.Location, worker.Reach, this);
-            else
+            {
+                Debug.Log("Worker not in reach to harvest.  Too far at " + track);
+                return new WorkerMarchState(worker, harvestTarget.Location, this);
+            }
+            else 
+            {
                 if (harvesting is false || worker.resourceInventory.InventoryFull() is false)
                 {
                     worker.StartCoroutine(Harvest());
                     return this;
                 }
+            }
+                
 
             //Once we harvest we want to deposit the resource
             return new DepositState(worker, this);

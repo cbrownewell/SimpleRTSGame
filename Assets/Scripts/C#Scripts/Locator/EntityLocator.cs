@@ -3,12 +3,13 @@ using System.Linq;
 using UnitScripts.States.Worker;
 using UnityEngine;
 
-public class EntityLocator :MonoBehaviour
+public class EntityLocator : MonoBehaviour
 {
     private void Awake()
     {
         DepositState.FindDepot += LocateDepotEntrance;
         HarvestState.FindResource += LocateHarvestable;
+        FleeState.FindSafePoint += FindSafePoint;
     }
 
     #region Buildings
@@ -17,9 +18,9 @@ public class EntityLocator :MonoBehaviour
     /// </summary>
     /// <param name="start"></param>
     /// <returns></returns>
-    Transform LocateDepotEntrance(Vector3 start) 
+    public Transform LocateDepotEntrance(Vector3 start) 
     {
-        var depot = GameObject.Find("CoreBase");
+        var depot = GameObject.FindWithTag("Deposit");
         depot.TryGetComponent<CoreBase>(out var building);
         return building.entryPoint;
     }
@@ -34,7 +35,7 @@ public class EntityLocator :MonoBehaviour
     /// <param name="type"></param>
     /// <param name="start"></param>
     /// <returns></returns>
-    IHarvestable LocateHarvestable(ResourceType type, Vector3 start) 
+    public IHarvestable LocateHarvestable(ResourceType type, Vector3 start) 
     {
         //Check surrounding area for resource nodes
         var colliders = Physics.OverlapSphere(start, 10f, LayerMask.GetMask("Resource"));
@@ -68,5 +69,21 @@ public class EntityLocator :MonoBehaviour
     }
 
     #endregion
+
+    /// <summary>
+    /// Finds a random point for a worker unit to run away to.
+    /// </summary>
+    /// <remarks>This method will not live here long term.</remarks>
+    /// <param name="origin"></param>
+    /// <returns></returns>
+    public Transform FindSafePoint(Vector3 origin, float distance) 
+    {
+        var safePoint = new GameObject();
+        var awayPoint = Random.onUnitCircle * distance; //This logic will have to be more complex later to ensure unit runs away from damage source.
+
+        safePoint.transform.position = origin + new Vector3(awayPoint.x, 0f, awayPoint.y);
+        return safePoint.transform;
+    }
+
 
 }

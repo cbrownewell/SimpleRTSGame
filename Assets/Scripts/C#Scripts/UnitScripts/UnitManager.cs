@@ -29,6 +29,7 @@ public class UnitManager : MonoBehaviour
             }
             else if (hitInfo.collider.gameObject.layer == 8) //If the raycast hit a resource/ the resource layer
             {
+                Debug.Log("Issuing Harvest");
                 hitInfo.collider.TryGetComponent<IHarvestable>(out var harvest);
 
                 if (harvest.IsEmpty() is true)
@@ -56,7 +57,7 @@ public class UnitManager : MonoBehaviour
 
         foreach (var worker in workers)
         {
-            worker.stateMachine.PushPriorityState(new WorkerMarchState(worker, movePoint, worker.Reach));
+            worker.stateMachine.PushPriorityState(new WorkerMarchState(worker, movePoint));
         }
     }
 
