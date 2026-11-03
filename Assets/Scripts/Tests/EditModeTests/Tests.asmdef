@@ -4,7 +4,7 @@
     "references": [
         "UnityEngine.TestRunner",
         "UnitScripts",
-        "Commands"
+        "StateMachine"
     ],
     "includePlatforms": [
         "Editor"
