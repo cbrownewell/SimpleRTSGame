@@ -8,16 +8,19 @@ public abstract class RegenContainer : ResourceContainer, IResourceRegen
     [SerializeField]
     int chargeRegen = 0;
 
+    [SerializeField]
+    int maxCharges = 0;
+
     /// <summary>
     /// Removes a single charge
     /// </summary>
     public void AddCharges(int value)
     {
-        int postAdd = chargeCount + value;
+        int postAdd = charges + value;
         if (postAdd > maxCharges)
-            chargeCount = maxCharges;
+            charges = maxCharges;
         else
-            chargeCount = postAdd;
+            charges = postAdd;
 
         CountChangeNotif();
     }
@@ -27,7 +30,7 @@ public abstract class RegenContainer : ResourceContainer, IResourceRegen
     /// </summary>
     public void RegenResources()
     {
-        if (chargeCount == maxCharges)
+        if (charges == maxCharges)
             return;
         else
             AddCharges(chargeRegen);

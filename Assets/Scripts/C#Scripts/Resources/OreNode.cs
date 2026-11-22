@@ -8,7 +8,7 @@ public class OreNode : ResourceContainer
 
     private void Awake()
     {
-        CountChanged += ChangeOreVisual;
+        CountDecreased += ChangeOreVisual;
         resourceType = ResourceType.IRON;
 
     }

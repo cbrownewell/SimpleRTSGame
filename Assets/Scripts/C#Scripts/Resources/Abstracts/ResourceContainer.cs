@@ -5,75 +5,72 @@ using UnityEngine;
 /// <summary>
 /// Base class for resource objects.
 /// </summary>
+[RequireComponent(typeof(ParticleSystem))]
 public abstract class ResourceContainer : MonoBehaviour, IHarvestable
 {
     [SerializeField]
-    protected int maxCharges;
+    protected int charges;
     [SerializeField]
-    int currentCount = 0;
-    [SerializeField]
-    float timeToHarvest = 1;
+    float timeToHarvest;
 
     /// <summary>
     /// Triggers whenever the number of available resources changes.
     /// </summary>
     /// <remarks>This delegete is ideally used to update animations/models.</remarks>
-    protected event Action<int> CountChanged;
-
-    public int chargesLeft => chargeCount;
+    protected event Action<int> CountDecreased;
 
     public Transform Location { get => transform; }
 
-    protected int chargeCount;
-
     protected ResourceType resourceType = ResourceType.NULL;
+
+    [SerializeField]
+    ParticleSystem particleSystem;
 
     private void Start()
     {
-        chargeCount = maxCharges;
-    }
-
-    private void Update()
-    {
-        currentCount = chargeCount;
+        CountDecreased += (_) => ActivateDecreaseEffect();
     }
 
     public float GetBaseHarvestTime() => timeToHarvest;
     public ResourceType GetResourceType() => resourceType;
-    public bool IsEmpty() => chargeCount == 0;
+    public bool IsEmpty() => charges == 0;
 
     /// <summary>
     /// Removes a single resource charge
     /// </summary>
     public bool RemoveCharge()
     {
-        int postWithdraw = chargeCount - 1;
+        int postWithdraw = charges - 1;
         if (postWithdraw < 0)
             return false;
 
-        chargeCount = postWithdraw;
+        charges = postWithdraw;
         CountChangeNotif();
         return true;
     }
 
-    public ResourceType Extract()
+    public void Extract(Action<ResourceType> OnHarvestEnd)
     {
-        if (IsEmpty())
-            return ResourceType.NULL;
+        Debug.Log("Starting Harvest.");
 
-        RemoveCharge();
-        //StartCoroutine(Harvest());
-        return resourceType;
+        if (IsEmpty())
+            Debug.LogError("Trying to Harvest from an empty resource container.");
+
+        StartCoroutine(Harvest(OnHarvestEnd));
     }
 
-    public IEnumerator Harvest()
+    public IEnumerator Harvest(Action<ResourceType> OnHarvestEnd)
     {
         yield return new WaitForSeconds(timeToHarvest);
+        OnHarvestEnd.Invoke(resourceType);
         RemoveCharge();
     }
 
-    protected void CountChangeNotif() => CountChanged?.Invoke(chargeCount);
-    
+    protected void CountChangeNotif() => CountDecreased?.Invoke(charges);
 
+    void ActivateDecreaseEffect() 
+    {
+        particleSystem.Play();
+    }
 
 }

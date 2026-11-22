@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.AI;
 
 [RequireComponent(typeof(Rigidbody), typeof(CapsuleCollider), typeof(NavMeshAgent))]
+[RequireComponent(typeof(Animator))]
 public abstract class GameUnit : MonoBehaviour, IMoveable<Vector3>, ISelectable
 {
     [SerializeField]
@@ -20,11 +21,14 @@ public abstract class GameUnit : MonoBehaviour, IMoveable<Vector3>, ISelectable
 
     protected NavMeshAgent agent;
     public NavMeshAgent NavMeshAgent { get { return agent; } }
+    protected Animator animator;
+    public Animator Animator { get { return animator; } }
 
     protected virtual void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
         agent.stoppingDistance = reach;
+        animator = GetComponent<Animator>();
     }
 
     public void MoveTo(Vector3 target) => agent.SetDestination(target);

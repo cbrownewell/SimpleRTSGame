@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public enum ResourceType
@@ -14,10 +15,10 @@ public enum ResourceType
 public interface IHarvestable 
 {
     /// <summary>
-    /// Removes one resource
+    /// Starts the Extraction Process
     /// </summary>
     /// <returns>Type of resource extracted</returns>
-    ResourceType Extract();
+    void Extract(Action<ResourceType> OnHarvestEnd);
     bool IsEmpty();
     ResourceType GetResourceType();
     float GetBaseHarvestTime();

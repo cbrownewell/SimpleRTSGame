@@ -1,3 +1,4 @@
+using Mono.Cecil;
 using StateMachine.States.Abstracts;
 using System;
 using System.Collections;
@@ -12,12 +13,6 @@ namespace UnitScripts.States.Worker
         IHarvestable harvestTarget;
 
         bool harvesting = false;
-
-        float harvestTime = 3f;//This should come from a matrix or dictionary
-
-        public HarvestState(WorkerUnit owner) : base(owner)
-        {
-        }
 
         /// <summary>
         /// Use this overload for passing in a direct harvest target.
@@ -51,16 +46,16 @@ namespace UnitScripts.States.Worker
             }
             else 
             {
-                if (harvesting is false || worker.resourceInventory.InventoryFull() is false)
+                if (harvesting is false)
                 {
-                    worker.StartCoroutine(Harvest());
-                    return this;
+                    if(worker.resourceInventory.InventoryFull() is false)
+                        worker.StartCoroutine(Harvest());
+                    else
+                        return new DepositState(worker, this); //Once we harvest we want to deposit the resource
                 }
-            }
-                
 
-            //Once we harvest we want to deposit the resource
-            return new DepositState(worker, this);
+                return this;
+            }
         }
         public override void CloseState()
         {
@@ -68,16 +63,17 @@ namespace UnitScripts.States.Worker
         }
         IEnumerator Harvest()
         {
-            harvesting = true; //Resource node has its own internal count so remove this later
-            float duration = harvestTime;
-            while (duration > 0)
-                duration -= Time.deltaTime;
+            harvesting = true;
+            worker.Animator.Play("Mining");
+            harvestTarget.Extract(OnHarvestEnd);
+            yield return new WaitUntil(() => harvesting is false);
+        }
 
-            //yield return new WaitUntil(() => harvestTarget.Extract() != ResourceType.NULL); //Maybe this could be useful?
-
-            var resource = harvestTarget.Extract();
-            worker.resourceInventory.AddToInventory(resource);
-            yield return null;
+        void OnHarvestEnd(ResourceType type)
+        {
+            harvesting = false;
+            worker.Animator.Play("Idle");
+            worker.resourceInventory.AddToInventory(type);
         }
     }
 }

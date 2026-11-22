@@ -32,8 +32,13 @@ public class UnitManager : MonoBehaviour
                 Debug.Log("Issuing Harvest");
                 hitInfo.collider.TryGetComponent<IHarvestable>(out var harvest);
 
+
+
                 if (harvest.IsEmpty() is true)
+                { 
+                    Debug.Log($"Source is empty: {harvest.IsEmpty()}");
                     return;
+                }
 
                 foreach (var worker in workers)
                 { 

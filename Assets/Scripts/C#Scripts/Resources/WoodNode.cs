@@ -8,7 +8,7 @@ public class WoodNode : RegenContainer
 
     void ChangeVisual() 
     {
-        if (chargeCount is 0)
+        if (charges is 0)
             model.gameObject.SetActive(false);
         else 
             model.gameObject.SetActive(true);
